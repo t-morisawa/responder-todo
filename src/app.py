@@ -2,6 +2,7 @@ import responder
 import random
 
 api = responder.API()
+todolist = [2,3,4,5,6]
 
 @api.route("/")
 def hello_world(req, resp):
@@ -13,8 +14,7 @@ def test_random(req, resp):
 
 @api.route("/test")
 async def get_html(req, resp):
-    media = {}
-    resp.html = api.template('test.html', params=media)
+    resp.html = api.template('test.html', todolist=todolist)
 
 @api.route("/todo")
 async def add_todo(req, resp):
@@ -27,7 +27,7 @@ async def add_todo(req, resp):
 async def update_todolist(req, resp):
     media = await req.media()
     print(media)
-    # 追加処理をここに実装する
+    # todolistの更新処理を入れる
     api.redirect(resp, '/test')
 
 if __name__ == '__main__':

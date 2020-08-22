@@ -6,8 +6,8 @@
     </head>
     <body>
         <h2>My To Do List</h2>
-        {% if params %}
-        <p>sent: {{params}}</p>
+        {% if todolist %}
+        <p>sent: {{todolist}}</p>
         {% endif %}
         <form action="/todo" method="post">
             <input type="text" name="todo" placeholder="Title...">
@@ -15,8 +15,12 @@
         </form>
 
         <form action="/todolist" method="post">
-        <ul style="list-style: none;">
+          <ul style="list-style: none;">
+            {% if 1 in todolist %}
             <li><input type="checkbox" name="riyu" value="1" checked="checked">アイス</li>
+            {% else %}
+            <li><input type="checkbox" name="riyu" value="1">アイス</li>
+            {% endif %}
             <li><input type="checkbox" name="riyu" value="2" checked="checked">スイカ</li>
             <li><input type="checkbox" name="riyu" value="3" checked="checked">カラス</li>
             <li><input type="checkbox" name="riyu" value="4" checked="checked">スズメ</li>
