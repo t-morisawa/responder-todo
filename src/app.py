@@ -9,7 +9,7 @@ def hello_world(req, resp):
 
 @api.route("/random")
 def test_random(req, resp):
-    resp.text = random.random()
+    resp.text = str(random.random())
 
 if __name__ == '__main__':
     api.run(address='0.0.0.0', port=80)
