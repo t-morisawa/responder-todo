@@ -1,25 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="content-type" charset="utf-8">
+        <meta name="Content-Style-Type" content="text/css">
+    </head>
+    <body>
+        <div id="myDIV" class="header">
+            <h2>My To Do List</h2>
+            <input type="text" id="myInput" placeholder="Title...">
+            <span onclick="newElement()" class="addBtn">Add</span>
+        </div>
 
-<meta http-equiv="content-type" charset="utf-8">
-<meta name="Content-Style-Type" content="text/css">
+        <ul style="list-style: none;" id="myUL">
+            {% if params %}
+            <p>sent: {{params}}</p>
+            {% endif %}
+            <form method="post"></li>
+                <li><input type="checkbox" name="riyu" value="1" checked="checked">アイス</li>
+                <li><input type="checkbox" name="riyu" value="2" checked="checked">スイカ</li>
+                <li><input type="checkbox" name="riyu" value="3" checked="checked">カラス</li>
+                <li><input type="checkbox" name="riyu" value="4" checked="checked">スズメ</li>
+                <li><input type="checkbox" name="riyu" value="5" checked="checked">メダカ</li>
+                <li><input type="checkbox" name="riyu" value="6" checked="checked">カゴメ</li>
+                <li><input type="submit" value="更新"></li>
+            </form>
 
-<div id="myDIV" class="header">
-    <h2>My To Do List</h2>
-    <input type="text" id="myInput" placeholder="Title...">
-    <span onclick="newElement()" class="addBtn">Add</span>
-  </div>
-
-  <ul style="list-style: none;" id="myUL">
-    {% if params %}
-    <p>sent: {{params}}</p>
-    {% endif %}
-    <form method="post"></li>
-        <li><input type="checkbox" name="riyu" value="1" checked="checked">アイス</li>
-        <li><input type="checkbox" name="riyu" value="2" checked="checked">スイカ</li>
-        <li><input type="checkbox" name="riyu" value="3" checked="checked">カラス</li>
-        <li><input type="checkbox" name="riyu" value="4" checked="checked">スズメ</li>
-        <li><input type="checkbox" name="riyu" value="5" checked="checked">メダカ</li>
-        <li><input type="checkbox" name="riyu" value="6" checked="checked">カゴメ</li>
-        <li><input type="submit" value="更新"></li>
-    </form>
-
-  </ul>
+        </ul>
+  </body>
+</html>
