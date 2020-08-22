@@ -26,7 +26,9 @@ async def add_todo(req, resp):
 @api.route("/todolist")
 async def update_todolist(req, resp):
     media = await req.media()
-
+    print(media)
+    # 追加処理をここに実装する
+    api.redirect(resp, '/test')
 
 if __name__ == '__main__':
     api.run(address='0.0.0.0', port=80)
