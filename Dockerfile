@@ -6,10 +6,8 @@ RUN apt-get update && apt-get install -y \
 
 WORKDIR /app
 
-COPY ./src/requirements.txt /app
+COPY ./src /app
 
 RUN pip install -r requirements.txt
-
-COPY ./src /app
 
 CMD uvicorn app:api --reload --host 0.0.0.0 --port 80
