@@ -12,4 +12,4 @@ RUN pip install -r requirements.txt
 
 COPY ./src /app
 
-CMD python app.py
+CMD uvicorn app:api --reload --host 0.0.0.0 --port 80
