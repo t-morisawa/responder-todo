@@ -2,7 +2,7 @@ import responder
 import random
 
 api = responder.API()
-todolist = [2,3,4,5,6]
+todolist = ['2','3','4','5','6']
 
 @api.route("/")
 def hello_world(req, resp):
@@ -27,7 +27,9 @@ async def add_todo(req, resp):
 async def update_todolist(req, resp):
     media = await req.media()
     print(media)
-    # todolistの更新処理を入れる
+    # todolistの更新処理を入れる]
+    global todolist
+    todolist = media.get_list('riyu')
     api.redirect(resp, '/test')
 
 if __name__ == '__main__':
