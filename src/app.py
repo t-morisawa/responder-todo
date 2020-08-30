@@ -4,7 +4,7 @@ from todo import Todo, TodolistManager
 
 api = responder.API()
 # todolist = ['2','3','4','5','6']
-todolist_manager = TodolistManager([Todo(True, "買い物"), Todo(False, "洗濯")])
+todolist_manager = TodolistManager([Todo(True, "買い物"), Todo(False, "洗濯"), Todo(True, "お風呂")])
 
 @api.route("/")
 def hello_world(req, resp):
@@ -31,9 +31,12 @@ async def add_todo(req, resp):
 async def update_todolist(req, resp):
     media = await req.media()
     print(media)
-    # todolistの更新処理を入れる]
-    global todolist
+    # todolistの更新処理を入れる
+
     todolist = media.get_list('riyu')
+    print(todolist)
+    todolist_manager.update_todo(todolist)
+
     api.redirect(resp, '/test')
 
 if __name__ == '__main__':

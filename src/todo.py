@@ -12,5 +12,9 @@ class TodolistManager:
     todo = Todo(False, task)
     self.todolist.append(todo)
 
-  def update_todo(self):
-    pass  # あとで実装する
+  def update_todo(self, list):
+    for index, item in enumerate(self.todolist):
+      if str(index + 1) in list:
+        item.checked = True
+      else:
+        item.checked = False
