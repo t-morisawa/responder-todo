@@ -4,11 +4,12 @@ class Todo:
     self.task = task
 
 
-class Todolist:
+class TodolistManager:
   def __init__(self, todolist=[]):
     self.todolist = todolist
 
-  def add_todo(self, todo):
+  def add_todo(self, task):
+    todo = Todo(False, task)
     self.todolist.append(todo)
 
   def update_todo(self):
