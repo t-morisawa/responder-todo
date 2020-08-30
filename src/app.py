@@ -1,8 +1,10 @@
 import responder
 import random
+from todo import Todo, Todolist
 
 api = responder.API()
-todolist = ['2','3','4','5','6']
+# todolist = ['2','3','4','5','6']
+todolist = Todolist([Todo(True, "買い物"), Todo(False, "洗濯")])
 
 @api.route("/")
 def hello_world(req, resp):
