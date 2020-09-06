@@ -41,7 +41,7 @@ docker push {レジストリのURI}:latest
 
 ### ECR(AWS)
 ```
-aws ecr get-login-password --region ap-northeast-1 --profile {profile} | docker login --username AWS --password-stdin https://{}.dkr.ecr.ap-northeast-1.amazonaws.com
+aws ecr get-login-password --region ap-northeast-1 --profile {profile} | docker login --username AWS --password-stdin https://{アカウント名}.dkr.ecr.ap-northeast-1.amazonaws.com
 docker tag responder-todo {アカウント名}.dkr.ecr.ap-northeast-1.amazonaws.com/responder-todo
 docker push {アカウント名}.dkr.ecr.ap-northeast-1.amazonaws.com/responder-todo
 ```
