@@ -2,8 +2,9 @@
 # reponder-todo
 
  - TODOリスト
-aaaa
-test
+ - Responder(Python)
+ - MySQL
+ - Docker
 
 # responderとは
 
@@ -28,3 +29,24 @@ docker run -it -p 80:80 responder-todo
 ```
 
 http://0.0.0.0 や http://localhost にアクセス
+
+# デプロイ
+
+# コンテナレジストリへpush
+```
+docker build -t responder-todo:lasest .
+docker tag top:latest {レジストリのURI}:latest
+docker push {レジストリのURI}:latest
+```
+
+## ECR(AWS)
+```
+docker tag responder-todo {アカウント名}.dkr.ecr.ap-northeast-1.amazonaws.com/responder-todo
+docker push {アカウント名}.dkr.ecr.ap-northeast-1.amazonaws.com/responder-todo
+```
+
+## GCR(GCP)
+```
+docker tag responder-todo gcr.io/{PROJECT-ID}/responder-todo
+docker push gcr.io/[PROJECT-ID]/responder-todo
+```
