@@ -15,12 +15,15 @@ def hello_world(req, resp):
 
 @api.route("/db")
 async def db_echo(req, resp):
+    #接続
     await Tortoise.init(
         db_url="mysql://root:password@db/todolist", modules={"models": ["models"]}
     )
+    #取得
     await Todolist.create(checked=False, task="cleaning")
     todo = await Todolist.first()
 
+    #表示
     resp.text = f"Hello, {todo.task}"
 
 @api.route("/random")
