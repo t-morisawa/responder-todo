@@ -1,6 +1,9 @@
 import responder
 import random
 from todo import Todo, TodolistManager
+from tortoise import Tortoise
+from models import Todolist
+
 
 api = responder.API()
 # todolist = ['2','3','4','5','6']
@@ -9,6 +12,19 @@ todolist_manager = TodolistManager([Todo(True, "買い物"), Todo(False, "洗濯
 @api.route("/")
 def hello_world(req, resp):
     resp.text = "hello, world!"
+
+@api.route("/db")
+async def db_echo(req, resp):
+    #接続
+    await Tortoise.init(
+        db_url="mysql://root:password@db/todolist", modules={"models": ["models"]}
+    )
+    #取得
+    await Todolist.create(checked=False, task="cleaning")
+    todo = await Todolist.first()
+
+    #表示
+    resp.text = f"Hello, {todo.task}"
 
 @api.route("/random")
 def test_random(req, resp):

@@ -1,1 +1,4 @@
 responder==2.0.5
+tortoise-orm
+asyncpg
+aiomysql
