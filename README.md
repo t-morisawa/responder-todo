@@ -27,8 +27,8 @@ http://0.0.0.0 や http://localhost にアクセス
 
 ## コンテナレジストリへpush
 ```
-docker build -t responder-todo:lasest .
-docker tag top:latest {レジストリのURI}:latest
+docker build -t responder-todo .
+docker tag responder-todo {レジストリのURI}:latest
 docker push {レジストリのURI}:latest
 ```
 
