@@ -1,24 +1,30 @@
 import responder
 import random
+import os
 from todo import Todo, TodolistManager
 from tortoise import Tortoise
 from models import Todolist
-
 
 api = responder.API()
 # todolist = ['2','3','4','5','6']
 todolist_manager = TodolistManager([Todo(True, "買い物"), Todo(False, "洗濯"), Todo(True, "お風呂")])
 
+if os.environ.get("ENV") == "local":
+    db_url="mysql://root:password@db/todolist"
+else:
+    db_url="mysql://root:password@/todolist?unix_socket=/cloudsql/PROJECT_NAME:asia-northeast1:todolist"
+
 @api.route("/")
 def hello_world(req, resp):
+    print(os.environ.get("ENV"))
     resp.text = "hello, world!"
+    
 
 @api.route("/db")
 async def db_echo(req, resp):
     #接続
     await Tortoise.init(
-        db_url="mysql://root:password@db/todolist", modules={"models": ["models"]}
-        # db_url="mysql://root:password@/todolist?unix_socket=/cloudsql/PROJECT_NAME:asia-northeast1:todolist", modules={"models": ["models"]}
+        db_url = db_url, modules={"models": ["models"]}
     )
     #登録
     await Todolist.create(checked=False, task="cleaning")
@@ -37,7 +43,7 @@ def test_random(req, resp):
 async def get_html(req, resp):
     #接続
     await Tortoise.init(
-        db_url="mysql://root:password@db/todolist", modules={"models": ["models"]}
+        db_url = db_url, modules={"models": ["models"]}
         # db_url="mysql://root:password@/todolist?unix_socket=/cloudsql/be-morisawa-toma:asia-northeast1:todolist", modules={"models": ["models"]}
     )
     todolist = await Todolist.all()
