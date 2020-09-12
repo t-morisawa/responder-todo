@@ -3,16 +3,11 @@
 
  - TODOリスト
  - Responder(Python)
+   - https://responder.kennethreitz.org/en/latest/
  - MySQL
  - Docker
-
-# responderとは
-
-https://responder.kennethreitz.org/en/latest/
-
-# Dockerとは
-
-https://docs.docker.jp/ 辺り?
+   - https://docs.docker.jp/
+ - GCP (Cloud Run, Cloud SQL)
 
 # 起動までの手順
 
@@ -25,22 +20,25 @@ http://0.0.0.0 や http://localhost にアクセス
 
 # デプロイ
 
-## コンテナレジストリへpush
+## Cloud SQL
+ - コンソールからMySQLサーバを作成・起動する
+ - Cloud Shellなどから `mysql/init/create_db.sql` に記載のコマンドを実行してDB/テーブルを作成する
+   - DBはコンソールからも作成可能
+
+## push(GCR)
 ```
 docker build -t responder-todo .
-docker tag responder-todo {レジストリのURI}:latest
-docker push {レジストリのURI}:latest
-```
-
-### ECR(AWS)
-```
-aws ecr get-login-password --region ap-northeast-1 --profile {profile} | docker login --username AWS --password-stdin https://{アカウント名}.dkr.ecr.ap-northeast-1.amazonaws.com
-docker tag responder-todo {アカウント名}.dkr.ecr.ap-northeast-1.amazonaws.com/responder-todo
-docker push {アカウント名}.dkr.ecr.ap-northeast-1.amazonaws.com/responder-todo
-```
-
-### GCR(GCP)
-```
 docker tag responder-todo gcr.io/{PROJECT-ID}/responder-todo
 docker push gcr.io/[PROJECT-ID]/responder-todo
 ```
+
+## Cloud Run
+ - コンソールからサービスを作成して実行
+ - 環境変数 `ENV` `PROJECT_NAME` を正しく設定
+ - ポート `80`
+ - 「Cloud SQL 接続」で作成したCloud SQLを指定
+
+# 環境変数
+
+ - `ENV`: `local` `prod`
+ - `PROJECT_NAME`: GCPのPROJECT_NAME
