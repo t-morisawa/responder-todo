@@ -12,13 +12,13 @@ todolist_manager = TodolistManager([Todo(True, "買い物"), Todo(False, "洗濯
 if os.environ.get("ENV") == "local":
     db_url="mysql://root:password@db/todolist"
 else:
-    db_url="mysql://root:password@/todolist?unix_socket=/cloudsql/PROJECT_NAME:asia-northeast1:todolist"
+    PROJECT_NAME = os.environ.get("PROJECT_NAME")
+    db_url=f"mysql://root:password@localhost/todolist?unix_socket=/cloudsql/{PROJECT_NAME}:asia-northeast1:todolist"
 
 @api.route("/")
 def hello_world(req, resp):
     print(os.environ.get("ENV"))
     resp.text = "hello, world!"
-    
 
 @api.route("/db")
 async def db_echo(req, resp):
