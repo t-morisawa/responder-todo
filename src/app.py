@@ -19,8 +19,10 @@ async def db_echo(req, resp):
     await Tortoise.init(
         db_url="mysql://root:password@db/todolist", modules={"models": ["models"]}
     )
-    #取得
+    #登録
     await Todolist.create(checked=False, task="cleaning")
+
+    #取得
     todo = await Todolist.first()
 
     #表示
@@ -32,6 +34,17 @@ def test_random(req, resp):
 
 @api.route("/test")
 async def get_html(req, resp):
+    #接続
+    await Tortoise.init(
+        db_url="mysql://root:password@db/todolist", modules={"models": ["models"]}
+    )
+    todolist = await Todolist.all()
+    new_todolist = []
+
+    for todo in todolist:
+        new_todolist.append(Todo(todo.checked,todo.task)) 
+
+    todolist_manager.set_todolist(new_todolist)
     resp.html = api.template('test.html', todolist_presenter=todolist_manager.todolist)
 
 @api.route("/todo")
@@ -39,7 +52,10 @@ async def add_todo(req, resp):
     media = await req.media()
     print(media)
     # 追加処理
-    todolist_manager.add_todo(media.get('task'))
+    #DBに以下を登録させる
+    if not media.get('task') is None:
+        await Todolist.create(checked=False, task=media.get('task'))
+
     # print(vars(todolist_manager))
     api.redirect(resp, '/test')
 
@@ -51,7 +67,17 @@ async def update_todolist(req, resp):
 
     todolist = media.get_list('riyu')
     print(todolist)
-    todolist_manager.update_todo(todolist)
+    
+    todolistAll = await Todolist.all()
+
+    for index, item in enumerate(todolistAll):
+        if str(index + 1) in todolist:
+            item.checked = True
+        else:
+            item.checked = False
+
+        #セーブの処理を待つ必要がある
+        await item.save()
 
     api.redirect(resp, '/test')
 
