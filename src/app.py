@@ -44,7 +44,6 @@ async def get_html(req, resp):
     #接続
     await Tortoise.init(
         db_url = db_url, modules={"models": ["models"]}
-        # db_url="mysql://root:password@/todolist?unix_socket=/cloudsql/be-morisawa-toma:asia-northeast1:todolist", modules={"models": ["models"]}
     )
     todolist = await Todolist.all()
     new_todolist = []
