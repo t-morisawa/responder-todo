@@ -18,6 +18,7 @@ async def db_echo(req, resp):
     #接続
     await Tortoise.init(
         db_url="mysql://root:password@db/todolist", modules={"models": ["models"]}
+        # db_url="mysql://root:password@/todolist?unix_socket=/cloudsql/PROJECT_NAME:asia-northeast1:todolist", modules={"models": ["models"]}
     )
     #登録
     await Todolist.create(checked=False, task="cleaning")
@@ -37,6 +38,7 @@ async def get_html(req, resp):
     #接続
     await Tortoise.init(
         db_url="mysql://root:password@db/todolist", modules={"models": ["models"]}
+        # db_url="mysql://root:password@/todolist?unix_socket=/cloudsql/be-morisawa-toma:asia-northeast1:todolist", modules={"models": ["models"]}
     )
     todolist = await Todolist.all()
     new_todolist = []
@@ -67,7 +69,7 @@ async def update_todolist(req, resp):
 
     todolist = media.get_list('riyu')
     print(todolist)
-    
+
     todolistAll = await Todolist.all()
 
     for index, item in enumerate(todolistAll):
