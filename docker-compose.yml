@@ -6,6 +6,8 @@ services:
      - "80:80"
     volumes:
      - ./src:/app
+    environment:
+      - ENV
   db:
     build: ./mysql
     volumes:
@@ -14,4 +16,4 @@ services:
     ports:
       - 3306:3306
     environment:
-      MYSQL_ROOT_PASSWORD: password
+      - MYSQL_ROOT_PASSWORD=password
