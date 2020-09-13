@@ -4,9 +4,10 @@
  - TODOリスト
  - Responder(Python)
    - https://responder.kennethreitz.org/en/latest/
+ - Tortoise
+   - https://tortoise-orm.readthedocs.io/en/latest/
  - MySQL
  - Docker
-   - https://docs.docker.jp/
  - GCP (Cloud Run, Cloud SQL)
 
 # 起動までの手順
