@@ -1,9 +1,11 @@
 import responder
 import random
 import os
+import time
 from todo import Todo, TodolistManager
 from tortoise import Tortoise
 from models import Todolist
+
 
 api = responder.API()
 # todolist = ['2','3','4','5','6']
@@ -15,6 +17,18 @@ else:
     PROJECT_NAME = os.environ.get("PROJECT_NAME")
     db_url=f"mysql://root:password@localhost/todolist?unix_socket=/cloudsql/{PROJECT_NAME}:asia-northeast1:todolist"
 
+@api.on_event("startup")
+async def setup():
+    # ローカルでMySQLサーバより先にアプリが起動してしまう可能性があるのでリトライ制御する
+    while True:
+        try:
+            await Tortoise.init(
+                db_url=db_url, modules={"models": ["models"]}
+            )
+            break
+        except Exception:
+            time.sleep(1)
+
 @api.route("/")
 def hello_world(req, resp):
     print(os.environ.get("ENV"))
@@ -22,10 +36,6 @@ def hello_world(req, resp):
 
 @api.route("/db")
 async def db_echo(req, resp):
-    #接続
-    await Tortoise.init(
-        db_url = db_url, modules={"models": ["models"]}
-    )
     #登録
     await Todolist.create(checked=False, task="cleaning")
 
@@ -41,15 +51,11 @@ def test_random(req, resp):
 
 @api.route("/test")
 async def get_html(req, resp):
-    #接続
-    await Tortoise.init(
-        db_url = db_url, modules={"models": ["models"]}
-    )
     todolist = await Todolist.all()
     new_todolist = []
 
     for todo in todolist:
-        new_todolist.append(Todo(todo.checked,todo.task)) 
+        new_todolist.append(Todo(todo.checked,todo.task))
 
     todolist_manager.set_todolist(new_todolist)
     resp.html = api.template('test.html', todolist_presenter=todolist_manager.todolist)
