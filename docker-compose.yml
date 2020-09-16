@@ -2,6 +2,8 @@ version: '3'
 services:
   web:
     build: .
+    depends_on:
+      - db
     ports:
      - "80:80"
     volumes:
