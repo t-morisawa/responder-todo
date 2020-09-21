@@ -1,28 +1,34 @@
+from dataclasses import dataclass
+from typing import List
 from tortoise import Tortoise
-from models import Todolist
 
+@dataclass
 class Todo:
-  def __init__(self, checked, task):
-    self.checked = checked
-    self.task = task
+  checked: bool
+  task: str
 
 
-class TodolistManager:
-  def __init__(self, todolist=[]):
-    self.todolist = todolist
+@dataclass
+class Todolist:
+  todolist: List[Todo]
 
 
-  #不要？
-  def add_todo(self, task):
-    todo = Todo(False, task)
-    self.todolist.append(todo)
+@dataclass
+class Repository:
+  async def get_all(self):
+    """
+    Todolistの一覧を取得する
+    """
+    pass
 
-  def update_todo(self, list):
-    for index, item in enumerate(self.todolist):
-      if str(index + 1) in list:
-        item.checked = True
-      else:
-        item.checked = False
+  async def create_item(self, task):
+    """
+    Todolistのアイテムを一件追加する
+    """
+    pass
 
-  def set_todolist(self, todolist):
-    self.todolist = todolist
+  async def update_checked(self, index, checked):
+    """
+    Todolistのチェック状態を更新する
+    """
+    pass
