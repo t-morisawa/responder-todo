@@ -10,9 +10,8 @@
  - Docker
  - GCP (Cloud Run, Cloud SQL)
 
-# 起動までの手順
+# ローカル
 
-## Docker Composeを使う
 ```
 docker-compose up --build
 ```
