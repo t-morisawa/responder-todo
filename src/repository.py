@@ -1,8 +1,8 @@
 from db import Todolist as TodolistModel
-from entity import Todo, Todolist, Repository
+from entity import Todo, Todolist, TodolistRepository
 
 
-class TodolistRepository(Repository):
+class TodolistRepositoryImpl(TodolistRepository):
     def __init__(self):
         self.db = TodolistModel
 
@@ -23,13 +23,10 @@ class TodolistRepository(Repository):
         item.checked = checked
 
     async def update_checked_from_checklist(self, checklist):
-        """
-        現状の実装はチェックの一括更新を行っているので効率よく登録できるような実装を用意する
-        """
         data = await self.db.all()
 
         for index, item in enumerate(data):
-            if str(index + 1) in checklist:
+            if index in checklist.checklist:
                 item.checked = True
             else:
                 item.checked = False

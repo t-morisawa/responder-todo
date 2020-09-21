@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from typing import List
-from tortoise import Tortoise
+
 
 @dataclass
 class Todo:
@@ -14,7 +14,12 @@ class Todolist:
 
 
 @dataclass
-class Repository:
+class Checklist:
+  checklist: List[int]
+
+
+@dataclass
+class TodolistRepository:
   async def get_all(self):
     """
     Todolistの一覧を取得する
@@ -28,6 +33,12 @@ class Repository:
     pass
 
   async def update_checked(self, index, checked):
+    """
+    Todolistのチェック状態を更新する
+    """
+    pass
+
+  async def update_checked_from_checklist(self, checklist):
     """
     Todolistのチェック状態を更新する
     """
