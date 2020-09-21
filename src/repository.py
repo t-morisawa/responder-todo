@@ -1,4 +1,4 @@
-from models import Todolist as TodolistModel
+from db import Todolist as TodolistModel
 from todo import Todo, Todolist, Repository
 
 
