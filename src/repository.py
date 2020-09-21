@@ -1,5 +1,5 @@
 from db import Todolist as TodolistModel
-from todo import Todo, Todolist, Repository
+from entity import Todo, Todolist, Repository
 
 
 class TodolistRepository(Repository):

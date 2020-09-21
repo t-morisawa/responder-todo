@@ -11,7 +11,6 @@ async def setup():
 
 @api.route("/")
 def hello_world(req, resp):
-    print(os.environ.get("ENV"))
     resp.text = "hello, world!"
 
 @api.route("/test")
