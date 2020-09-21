@@ -4,17 +4,26 @@ from typing import List
 
 @dataclass
 class Todo:
+  """
+  Todoリストの要素
+  """
   checked: bool
   task: str
 
 
 @dataclass
 class Todolist:
+  """
+  Todoリスト本体
+  """
   todolist: List[Todo]
 
 
 @dataclass
 class Checklist:
+  """
+  Todoリストの更新に利用. ユーザがチェックした要素の配列
+  """
   checklist: List[int]
 
 
@@ -34,6 +43,6 @@ class TodolistRepository:
 
   async def update_checked_from_checklist(self, checklist):
     """
-    Todolistのチェック状態を更新する
+    Todolistのチェック状態を一括更新する
     """
     pass
