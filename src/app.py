@@ -34,21 +34,6 @@ def hello_world(req, resp):
     print(os.environ.get("ENV"))
     resp.text = "hello, world!"
 
-@api.route("/db")
-async def db_echo(req, resp):
-    #登録
-    await Todolist.create(checked=False, task="cleaning")
-
-    #取得
-    todo = await Todolist.first()
-
-    #表示
-    resp.text = f"Hello, {todo.task}"
-
-@api.route("/random")
-def test_random(req, resp):
-    resp.text = str(random.random())
-
 @api.route("/test")
 async def get_html(req, resp):
     todolist = await Todolist.all()
