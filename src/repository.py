@@ -15,12 +15,8 @@ class TodolistRepositoryImpl(TodolistRepository):
 
         return Todolist(list_todo).todolist
 
-    async def create_item(self, task):
+    async def add_item(self, task):
         await self.db.create(checked=False, task=task)
-
-    async def update_checked(self, index, checked):
-        item = await self.db[index]
-        item.checked = checked
 
     async def update_checked_from_checklist(self, checklist):
         data = await self.db.all()

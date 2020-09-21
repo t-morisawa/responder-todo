@@ -24,7 +24,7 @@ async def add_todo(req, resp):
     media = await req.media()
 
     if not media.get('task') is None:
-        await TodolistRepositoryImpl().create_item(task=media.get('task'))
+        await TodolistRepositoryImpl().add_item(task=media.get('task'))
 
     api.redirect(resp, '/test')
 

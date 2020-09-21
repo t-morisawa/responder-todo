@@ -26,15 +26,9 @@ class TodolistRepository:
     """
     pass
 
-  async def create_item(self, task):
+  async def add_item(self, task):
     """
     Todolistのアイテムを一件追加する
-    """
-    pass
-
-  async def update_checked(self, index, checked):
-    """
-    Todolistのチェック状態を更新する
     """
     pass
 
