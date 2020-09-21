@@ -3,8 +3,8 @@ from entity import Todo, Todolist, TodolistRepository
 
 
 class TodolistRepositoryImpl(TodolistRepository):
-    def __init__(self):
-        self.db = TodolistModel
+    def __init__(self, db):
+        self.db = db
 
     async def get_all(self):
         data = await self.db.all()
