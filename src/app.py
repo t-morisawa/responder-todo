@@ -2,6 +2,7 @@ import responder
 from db import init as init_db, Todolist as TodolistDriver
 from repository import TodolistRepositoryImpl
 from form import checklist_from_form
+from usecase import UsecaseImpl
 
 
 api = responder.API()
@@ -16,15 +17,17 @@ def hello_world(req, resp):
 
 @api.route("/test")
 async def get_html(req, resp):
-    todolist = await TodolistRepositoryImpl(TodolistDriver).get_all()
-    resp.html = api.template('test.html', todolist_presenter=todolist)
+    usecase = UsecaseImpl(TodolistRepositoryImpl(TodolistDriver))
+    todolist = await usecase.get_all()
+    resp.html = api.template('test.html', todolist_presenter=todolist.data)
 
 @api.route("/todo")
 async def add_todo(req, resp):
     media = await req.media()
-
-    if not media.get('task') is None:
-        await TodolistRepositoryImpl(TodolistDriver).add_item(task=media.get('task'))
+    if media.get('task') is None:
+        api.redirect(resp, '/test')
+    usecase = UsecaseImpl(TodolistRepositoryImpl(TodolistDriver))
+    await usecase.add_item(task=media.get('task'))
 
     api.redirect(resp, '/test')
 
@@ -32,8 +35,8 @@ async def add_todo(req, resp):
 async def update_todolist(req, resp):
     media = await req.media()
     checklist = checklist_from_form(media)
-
-    await TodolistRepositoryImpl(TodolistDriver).update_checked_from_checklist(checklist)
+    usecase = UsecaseImpl(TodolistRepositoryImpl(TodolistDriver))
+    await usecase.update_all_from_checklist(checklist)
 
     api.redirect(resp, '/test')
 
