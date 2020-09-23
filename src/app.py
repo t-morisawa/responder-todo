@@ -3,7 +3,6 @@ from db import init as init_db, Todolist as TodolistDriver
 from repository import TodolistRepositoryImpl
 from usecase import UsecaseImpl
 from controller import TodoController
-from entity import Checklist
 
 api = responder.API()
 
@@ -29,9 +28,7 @@ class TodoRoute:
             todolist = await self.controller.add_item(media)
             resp.html = api.template('todo.html', todolist_presenter=todolist.data)
         elif media.get('action') == 'update_checklist':
-            querydict = media.get_list('riyu')
-            checklist = Checklist(list(map(lambda i: int(i)-1, querydict)))
-            todolist = await self.controller.update_all_from_checklist(checklist)
+            todolist = await self.controller.update_all_from_checklist(media.get_list('riyu'))
             resp.html = api.template('todo.html', todolist_presenter=todolist.data)
 
 api.add_route('/todo', TodoRoute)
