@@ -1,7 +1,6 @@
 from db import Todolist as TodolistDriver
 from repository import TodolistRepositoryImpl
-from entity import Checklist
-
+from usecase import Checklist
 
 class TodoController:
     def __init__(self, usecase):

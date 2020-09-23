@@ -17,11 +17,3 @@ class Todolist:
   Todoリスト本体
   """
   data: List[Todo]
-
-
-@dataclass
-class Checklist:
-  """
-  Todoリストの更新に利用. ユーザがチェックした要素の配列
-  """
-  data: List[int]
