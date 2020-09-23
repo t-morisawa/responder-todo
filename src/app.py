@@ -1,9 +1,8 @@
 import responder
 from db import init as init_db, Todolist as TodolistDriver
 from repository import TodolistRepositoryImpl
-from form import checklist_from_form
 from usecase import UsecaseImpl
-
+from controller import TodoController
 
 api = responder.API()
 
@@ -15,30 +14,24 @@ async def setup():
 def hello_world(req, resp):
     resp.text = "hello, world!"
 
-@api.route("/test")
-async def get_html(req, resp):
-    usecase = UsecaseImpl(TodolistRepositoryImpl(TodolistDriver))
-    todolist = await usecase.get_all()
-    resp.html = api.template('test.html', todolist_presenter=todolist.data)
+class TodoRoute:
+    def __init__(self):
+        self.controller = TodoController(UsecaseImpl(TodolistRepositoryImpl(TodolistDriver)))
 
-@api.route("/todo")
-async def add_todo(req, resp):
-    media = await req.media()
-    if media.get('task') is None:
-        api.redirect(resp, '/test')
-    usecase = UsecaseImpl(TodolistRepositoryImpl(TodolistDriver))
-    await usecase.add_item(task=media.get('task'))
+    async def on_get(self, req, resp):
+        todolist = await self.controller.get_all()
+        resp.html = api.template('todo.html', todolist_presenter=todolist.data)
 
-    api.redirect(resp, '/test')
+    async def on_post(self, req, resp):
+        media = await req.media()
+        if media.get('action') == 'add_todo':
+            todolist = await self.controller.add_item(media)
+            resp.html = api.template('todo.html', todolist_presenter=todolist.data)
+        elif media.get('action') == 'update_checklist':
+            todolist = await self.controller.update_all_from_checklist(media.get_list('riyu'))
+            resp.html = api.template('todo.html', todolist_presenter=todolist.data)
 
-@api.route("/todolist")
-async def update_todolist(req, resp):
-    media = await req.media()
-    checklist = checklist_from_form(media)
-    usecase = UsecaseImpl(TodolistRepositoryImpl(TodolistDriver))
-    await usecase.update_all_from_checklist(checklist)
-
-    api.redirect(resp, '/test')
+api.add_route('/todo', TodoRoute)
 
 if __name__ == '__main__':
     api.run(address='0.0.0.0', port=80)

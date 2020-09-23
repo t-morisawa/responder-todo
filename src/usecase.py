@@ -1,4 +1,16 @@
 from entity import Todo, Todolist
+from typing import List
+from dataclasses import dataclass
+
+
+@dataclass
+class Checklist:
+  """
+  UseCase Input
+  Todoリストの更新に利用. ユーザがチェックした要素の配列
+  """
+  data: List[int]
+
 
 class Usecase:
   async def get_all(self):
