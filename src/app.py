@@ -1,8 +1,8 @@
 import responder
 from db import init as init_db, Todolist as TodolistDriver
 from repository import TodolistRepositoryImpl
-from form import checklist_from_form
 from usecase import UsecaseImpl
+from controller import TodoController
 
 api = responder.API()
 
@@ -16,25 +16,21 @@ def hello_world(req, resp):
 
 class TodoRoute:
     async def on_get(self, req, resp):
-        usecase = UsecaseImpl(TodolistRepositoryImpl(TodolistDriver))
-        todolist = await usecase.get_all()
+        controller = TodoController(UsecaseImpl(TodolistRepositoryImpl(TodolistDriver)))
+        todolist = await controller.get_all()
         resp.html = api.template('todo.html', todolist_presenter=todolist.data)
 
     async def on_post(self, req, resp):
         media = await req.media()
         if media.get('action') == 'add_todo':
-            if media.get('task') is None:
-                api.redirect(resp, '/todo')
-            usecase = UsecaseImpl(TodolistRepositoryImpl(TodolistDriver))
-            await usecase.add_item(task=media.get('task'))
-            todolist = await usecase.get_all()
+            controller = TodoController(UsecaseImpl(TodolistRepositoryImpl(TodolistDriver)))
+            todolist = await controller.add_item(media)
             resp.html = api.template('todo.html', todolist_presenter=todolist.data)
         elif media.get('action') == 'update_checklist':
-            media = await req.media()
-            checklist = checklist_from_form(media)
-            usecase = UsecaseImpl(TodolistRepositoryImpl(TodolistDriver))
-            await usecase.update_all_from_checklist(checklist)
-            todolist = await usecase.get_all()
+            querydict = media.get_list('riyu')
+            checklist = Checklist(list(map(lambda i: int(i)-1, checklist)))
+            controller = TodoController(UsecaseImpl(TodolistRepositoryImpl(TodolistDriver)))
+            todolist = await controller.update_all_from_checklist(checklist)
             resp.html = api.template('todo.html', todolist_presenter=todolist.data)
 
 api.add_route('/todo', TodoRoute)
