@@ -1,6 +1,8 @@
 import responder
 from db import init as init_db
+from db import Todolist as TodolistDriver
 from controller import TodoController
+from repository import TodolistTortoiseRepository
 
 api = responder.API()
 
@@ -19,16 +21,19 @@ def hello_world(req, resp):
     resp.text = "hello, world!"
 
 class TodoRoute:
+    def __init__(self):
+        self.controller = TodoController(TodolistTortoiseRepository(TodolistDriver))
+
     async def on_get(self, req, resp):
-        todolist = await TodoController().get_all()
+        todolist = await self.controller.get_all()
         resp.html = api.template('todo.html', todolist_presenter=todolist.data)
 
     async def on_post(self, req, resp):
         media = await req.media()
         if media.get('action') == FORM_VALUE['ADD_TODO']:
-            todolist = await TodoController().add_item(media)
+            todolist = await self.controller.add_item(media)
         elif media.get('action') == FORM_VALUE['UPDATE_CHECKLIST']:
-            todolist = await TodoController().update_all_from_checklist(media.get_list(FORM_VALUE['CHECKLIST']))
+            todolist = await self.controller.update_all_from_checklist(media.get_list(FORM_VALUE['CHECKLIST']))
         resp.html = api.template('todo.html', todolist_presenter=todolist.data)
 
 api.add_route('/', TodoRoute)
