@@ -1,5 +1,3 @@
-# yourapp.models.py
-
 import time
 import os
 from tortoise import Tortoise

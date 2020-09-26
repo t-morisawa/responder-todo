@@ -13,26 +13,6 @@ class Checklist:
 
 
 class Usecase:
-  async def get_all(self):
-    """
-    Todolistの一覧を取得する
-    """
-    pass
-
-  async def add_item(self, task):
-    """
-    Todolistのアイテムを一件追加する
-    """
-    pass
-
-  async def update_all_from_checklist(self, checklist):
-    """
-    Todolistのチェック状態を一括更新する
-    """
-    pass
-
-
-class UsecaseImpl:
   def __init__(self, todolist_repository):
       self.repository = todolist_repository
 

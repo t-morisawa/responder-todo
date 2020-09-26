@@ -22,7 +22,7 @@ class TodolistRepository:
     pass
 
 
-class TodolistRepositoryImpl(TodolistRepository):
+class TodolistTortoiseRepository(TodolistRepository):
     def __init__(self, db):
         self.db = db
 

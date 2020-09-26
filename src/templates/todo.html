@@ -6,20 +6,20 @@
   </head>
   <body>
     <h2>My To Do List</h2>
-    <form action="/todo" method="post">
+    <form action="/" method="post">
       <input type="hidden" name="action" value="add_todo">
       <input type="text" name="task" placeholder="Title...">
       <input type="submit" value="追加">
     </form>
 
-    <form action="/todo" method="post">
+    <form action="/" method="post">
       <input type="hidden" name="action" value="update_checklist">
       <ul style="list-style: none;">
         {% for item in todolist_presenter %}
         {% if item.checked %}
-        <li><input type="checkbox" name="riyu" value="{{loop.index}}" checked="checked">{{item.task}}</li>
+        <li><input type="checkbox" name="checklist" value="{{loop.index}}" checked="checked">{{item.task}}</li>
         {% else %}
-        <li><input type="checkbox" name="riyu" value="{{loop.index}}">{{item.task}}</li>
+        <li><input type="checkbox" name="checklist" value="{{loop.index}}">{{item.task}}</li>
         {% endif %}
         {% endfor %}
         <li><input type="submit" value="更新"></li>

@@ -1,10 +1,10 @@
-from db import Todolist as TodolistDriver
-from repository import TodolistRepositoryImpl
 from usecase import Checklist
+from usecase import Usecase
+
 
 class TodoController:
-    def __init__(self, usecase):
-        self.usecase = usecase
+    def __init__(self, repository):
+        self.usecase = Usecase(repository)
 
     async def get_all(self):
         return await self.usecase.get_all()
