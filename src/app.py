@@ -6,11 +6,17 @@ from controller import TodoController
 
 api = responder.API()
 
+FORM_VALUE = {
+    'ADD_TODO': 'add_todo',
+    'UPDATE_CHECKLIST': 'update_checklist',
+    'CHECKLIST': 'checklist'
+}
+
 @api.on_event("startup")
 async def setup():
     await init_db()
 
-@api.route("/")
+@api.route("/hello")
 def hello_world(req, resp):
     resp.text = "hello, world!"
 
@@ -24,14 +30,10 @@ class TodoRoute:
 
     async def on_post(self, req, resp):
         media = await req.media()
-        if media.get('action') == 'add_todo':
+        if media.get('action') == FORM_VALUE['ADD_TODO']:
             todolist = await self.controller.add_item(media)
-            resp.html = api.template('todo.html', todolist_presenter=todolist.data)
-        elif media.get('action') == 'update_checklist':
-            todolist = await self.controller.update_all_from_checklist(media.get_list('riyu'))
-            resp.html = api.template('todo.html', todolist_presenter=todolist.data)
+        elif media.get('action') == FORM_VALUE['UPDATE_CHECKLIST']:
+            todolist = await self.controller.update_all_from_checklist(media.get_list(FORM_VALUE['CHECKLIST']))
+        resp.html = api.template('todo.html', todolist_presenter=todolist.data)
 
-api.add_route('/todo', TodoRoute)
-
-if __name__ == '__main__':
-    api.run(address='0.0.0.0', port=80)
+api.add_route('/', TodoRoute)
